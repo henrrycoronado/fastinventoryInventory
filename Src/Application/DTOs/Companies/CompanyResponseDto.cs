@@ -1,4 +1,4 @@
-namespace prismodInventory.Src.Application.DTOs.Companies;
+namespace fastinventoryInventory.Src.Application.DTOs.Companies;
 
 public class CompanyResponseDto
 {

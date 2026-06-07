@@ -1,9 +1,9 @@
+using fastinventoryInventory.Src.Application.DTOs.Warehouses;
+using fastinventoryInventory.Src.Application.Interfaces;
+
 using Microsoft.AspNetCore.Mvc;
 
-using prismodInventory.Src.Application.DTOs.Warehouses;
-using prismodInventory.Src.Application.Interfaces;
-
-namespace prismodInventory.Src.Presentation.Controllers;
+namespace fastinventoryInventory.Src.Presentation.Controllers;
 
 [ApiController]
 [Route("api/inventory/companies/{companyCen}/warehouses")]

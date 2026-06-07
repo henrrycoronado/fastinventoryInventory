@@ -1,6 +1,6 @@
-using prismodInventory.Src.Application.DTOs.Companies;
+using fastinventoryInventory.Src.Application.DTOs.Companies;
 
-namespace prismodInventory.Src.Application.Interfaces;
+namespace fastinventoryInventory.Src.Application.Interfaces;
 
 public interface ICompanyService
 {

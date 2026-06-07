@@ -1,9 +1,9 @@
+using fastinventoryInventory.Src.Infraestructure.Persistence.Interfaces;
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 
-using prismodInventory.Src.Infraestructure.Persistence.Interfaces;
-
-namespace prismodInventory.Src.Infraestructure.Persistence.Repositories;
+namespace fastinventoryInventory.Src.Infraestructure.Persistence.Repositories;
 
 public class UnitOfWork : IUnitOfWork
 {

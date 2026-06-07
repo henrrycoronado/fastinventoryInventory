@@ -1,4 +1,4 @@
-namespace prismodInventory.Src.Domain.Entities;
+namespace fastinventoryInventory.Src.Domain.Entities;
 
 public class KardexMovement
 {

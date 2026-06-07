@@ -1,4 +1,4 @@
-namespace prismodInventory.Src.Infraestructure.Persistence.Interfaces;
+namespace fastinventoryInventory.Src.Infraestructure.Persistence.Interfaces;
 
 public interface IUnitOfWork
 {

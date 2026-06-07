@@ -1,6 +1,6 @@
-using prismodInventory.Src.Application.DTOs.Categories;
+using fastinventoryInventory.Src.Application.DTOs.Categories;
 
-namespace prismodInventory.Src.Application.Interfaces;
+namespace fastinventoryInventory.Src.Application.Interfaces;
 
 public interface ICategoryService
 {

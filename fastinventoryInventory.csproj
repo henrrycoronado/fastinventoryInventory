@@ -6,7 +6,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
     <AnalysisLevel>latest</AnalysisLevel>
-    <RootNamespace>PrismodInventory</RootNamespace>
+    <RootNamespace>FastinventoryInventory</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

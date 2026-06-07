@@ -1,4 +1,4 @@
-namespace prismodInventory.Src.Application.DTOs.Common;
+namespace fastinventoryInventory.Src.Application.DTOs.Common;
 
 public class ProductQueryFilters
 {

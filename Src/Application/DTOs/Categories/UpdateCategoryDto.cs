@@ -1,4 +1,4 @@
-namespace prismodInventory.Src.Application.DTOs.Categories;
+namespace fastinventoryInventory.Src.Application.DTOs.Categories;
 
 public class UpdateCategoryDto
 {

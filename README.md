@@ -1,4 +1,4 @@
-## Prismod Inventory
+## Fastinventory Inventory
 
 Base structure for the Inventory API.
 
@@ -18,7 +18,7 @@ Base structure for the Inventory API.
 
 ### Manual setup
 
-From the `prismodInventory` folder, run these steps once:
+From the `fastinventoryInventory` folder, run these steps once:
 
 ```bash
 dotnet tool restore
@@ -28,8 +28,8 @@ dotnet husky install
 Useful checks:
 
 ```bash
-dotnet format prismodInventory.csproj --verify-no-changes
-dotnet build prismodInventory.csproj
+dotnet format fastinventoryInventory.csproj --verify-no-changes
+dotnet build fastinventoryInventory.csproj
 ```
 
 The hooks live in `.husky/`:

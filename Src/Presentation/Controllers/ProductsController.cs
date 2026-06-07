@@ -1,11 +1,11 @@
+using fastinventoryInventory.Src.Application.DTOs.Common;
+using fastinventoryInventory.Src.Application.DTOs.Inventory;
+using fastinventoryInventory.Src.Application.DTOs.Products;
+using fastinventoryInventory.Src.Application.Interfaces;
+
 using Microsoft.AspNetCore.Mvc;
 
-using prismodInventory.Src.Application.DTOs.Common;
-using prismodInventory.Src.Application.DTOs.Inventory;
-using prismodInventory.Src.Application.DTOs.Products;
-using prismodInventory.Src.Application.Interfaces;
-
-namespace prismodInventory.Src.Presentation.Controllers;
+namespace fastinventoryInventory.Src.Presentation.Controllers;
 
 [ApiController]
 [Route("api/inventory/companies/{companyCen}/products")]

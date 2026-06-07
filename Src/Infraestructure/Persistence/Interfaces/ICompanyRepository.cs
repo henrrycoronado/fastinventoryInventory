@@ -1,6 +1,6 @@
-using prismodInventory.Src.Domain.Entities;
+using fastinventoryInventory.Src.Domain.Entities;
 
-namespace prismodInventory.Src.Infraestructure.Persistence.Interfaces;
+namespace fastinventoryInventory.Src.Infraestructure.Persistence.Interfaces;
 
 public interface ICompanyRepository
 {

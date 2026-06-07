@@ -1,4 +1,4 @@
-namespace prismodInventory.Src.Application.DTOs.Warehouses;
+namespace fastinventoryInventory.Src.Application.DTOs.Warehouses;
 
 public class WarehouseResponseDto
 {

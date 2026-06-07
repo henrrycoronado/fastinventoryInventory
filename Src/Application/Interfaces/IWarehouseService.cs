@@ -1,6 +1,6 @@
-using prismodInventory.Src.Application.DTOs.Warehouses;
+using fastinventoryInventory.Src.Application.DTOs.Warehouses;
 
-namespace prismodInventory.Src.Application.Interfaces;
+namespace fastinventoryInventory.Src.Application.Interfaces;
 
 public interface IWarehouseService
 {

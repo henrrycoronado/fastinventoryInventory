@@ -1,4 +1,4 @@
-namespace prismodInventory.Src.Application.DTOs.Inventory;
+namespace fastinventoryInventory.Src.Application.DTOs.Inventory;
 
 public class GeneratedMovementContractDto
 {

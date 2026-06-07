@@ -1,13 +1,13 @@
 using DotNetEnv;
 
-using Microsoft.EntityFrameworkCore;
+using fastinventoryInventory.Src.Application.Interfaces;
+using fastinventoryInventory.Src.Application.Services;
+using fastinventoryInventory.Src.Infraestructure.Persistence;
+using fastinventoryInventory.Src.Infraestructure.Persistence.Interfaces;
+using fastinventoryInventory.Src.Infraestructure.Persistence.Repositories;
+using fastinventoryInventory.Src.Presentation.MIddleware;
 
-using prismodInventory.Src.Application.Interfaces;
-using prismodInventory.Src.Application.Services;
-using prismodInventory.Src.Infraestructure.Persistence;
-using prismodInventory.Src.Infraestructure.Persistence.Interfaces;
-using prismodInventory.Src.Infraestructure.Persistence.Repositories;
-using prismodInventory.Src.Presentation.MIddleware;
+using Microsoft.EntityFrameworkCore;
 
 Env.Load();
 

@@ -1,8 +1,8 @@
+using fastinventoryInventory.Src.Infraestructure.Persistence.Models;
+
 using Microsoft.EntityFrameworkCore;
 
-using prismodInventory.Src.Infraestructure.Persistence.Models;
-
-namespace prismodInventory.Src.Infraestructure.Persistence;
+namespace fastinventoryInventory.Src.Infraestructure.Persistence;
 
 public class ApplicationDbContext : DbContext
 {

@@ -1,7 +1,7 @@
-using prismodInventory.Src.Application.DTOs.Common;
-using prismodInventory.Src.Application.DTOs.Inventory;
+using fastinventoryInventory.Src.Application.DTOs.Common;
+using fastinventoryInventory.Src.Application.DTOs.Inventory;
 
-namespace prismodInventory.Src.Application.Interfaces;
+namespace fastinventoryInventory.Src.Application.Interfaces;
 
 public interface IInventoryService
 {

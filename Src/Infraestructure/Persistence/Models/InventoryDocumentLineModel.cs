@@ -1,4 +1,4 @@
-namespace prismodInventory.Src.Infraestructure.Persistence.Models;
+namespace fastinventoryInventory.Src.Infraestructure.Persistence.Models;
 
 public class InventoryDocumentLineModel
 {

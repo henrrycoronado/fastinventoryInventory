@@ -1,9 +1,9 @@
-using prismodInventory.Src.Application.DTOs.Categories;
-using prismodInventory.Src.Application.Interfaces;
-using prismodInventory.Src.Domain.Entities;
-using prismodInventory.Src.Infraestructure.Persistence.Interfaces;
+using fastinventoryInventory.Src.Application.DTOs.Categories;
+using fastinventoryInventory.Src.Application.Interfaces;
+using fastinventoryInventory.Src.Domain.Entities;
+using fastinventoryInventory.Src.Infraestructure.Persistence.Interfaces;
 
-namespace prismodInventory.Src.Application.Services;
+namespace fastinventoryInventory.Src.Application.Services;
 
 public class CategoryService : ICategoryService
 {

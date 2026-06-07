@@ -1,11 +1,11 @@
+using fastinventoryInventory.Src.Application.DTOs.Common;
+using fastinventoryInventory.Src.Domain.Entities;
+using fastinventoryInventory.Src.Infraestructure.Persistence.Interfaces;
+using fastinventoryInventory.Src.Infraestructure.Persistence.Models;
+
 using Microsoft.EntityFrameworkCore;
 
-using prismodInventory.Src.Application.DTOs.Common;
-using prismodInventory.Src.Domain.Entities;
-using prismodInventory.Src.Infraestructure.Persistence.Interfaces;
-using prismodInventory.Src.Infraestructure.Persistence.Models;
-
-namespace prismodInventory.Src.Infraestructure.Persistence.Repositories;
+namespace fastinventoryInventory.Src.Infraestructure.Persistence.Repositories;
 
 public class ProductRepository : IProductRepository
 {

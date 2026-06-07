@@ -1,10 +1,10 @@
-using prismodInventory.Src.Application.DTOs.Common;
-using prismodInventory.Src.Application.DTOs.Inventory;
-using prismodInventory.Src.Application.Interfaces;
-using prismodInventory.Src.Domain.Entities;
-using prismodInventory.Src.Infraestructure.Persistence.Interfaces;
+using fastinventoryInventory.Src.Application.DTOs.Common;
+using fastinventoryInventory.Src.Application.DTOs.Inventory;
+using fastinventoryInventory.Src.Application.Interfaces;
+using fastinventoryInventory.Src.Domain.Entities;
+using fastinventoryInventory.Src.Infraestructure.Persistence.Interfaces;
 
-namespace prismodInventory.Src.Application.Services;
+namespace fastinventoryInventory.Src.Application.Services;
 
 public class InventoryService : IInventoryService
 {

@@ -1,4 +1,4 @@
-namespace prismodInventory.Src.Application.DTOs.Units;
+namespace fastinventoryInventory.Src.Application.DTOs.Units;
 
 public class UnitResponseDto
 {

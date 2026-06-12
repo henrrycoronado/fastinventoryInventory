@@ -1,5 +1,8 @@
+using System.Threading.Channels;
+
 using DotNetEnv;
 
+using fastinventoryInventory.Src.Application.DTOs.Inventory;
 using fastinventoryInventory.Src.Application.Interfaces;
 using fastinventoryInventory.Src.Application.Services;
 using fastinventoryInventory.Src.Infraestructure.Persistence;

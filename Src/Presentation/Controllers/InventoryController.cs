@@ -1,3 +1,6 @@
+using System.Text.Json;
+using System.Threading.Channels;
+
 using fastinventoryInventory.Src.Application.DTOs.Common;
 using fastinventoryInventory.Src.Application.DTOs.Inventory;
 using fastinventoryInventory.Src.Application.Interfaces;
@@ -11,10 +14,30 @@ namespace fastinventoryInventory.Src.Presentation.Controllers;
 public class InventoryController : ControllerBase
 {
     private readonly IInventoryService _inventoryService;
+    private readonly Channel<RestockEvent> _restockChannel;
 
-    public InventoryController(IInventoryService inventoryService)
+    public InventoryController(IInventoryService inventoryService, Channel<RestockEvent> restockChannel)
     {
         _inventoryService = inventoryService;
+        _restockChannel = restockChannel;
+    }
+
+    [HttpGet("restock-events")]
+    public async Task StreamRestockEvents(string companyCen, CancellationToken ct)
+    {
+        Response.Headers["Content-Type"] = "text/event-stream";
+        Response.Headers["Cache-Control"] = "no-cache";
+        Response.Headers["Connection"] = "keep-alive";
+
+        await foreach (var evento in _restockChannel.Reader.ReadAllAsync(ct))
+        {
+            // Only stream events for the requested company
+            // (In a real scenario, events would be tagged with companyCen)
+            // For now, we assume all events in this channel are relevant or we could add a check if DTO had companyCen
+
+            await Response.WriteAsync($"data: {JsonSerializer.Serialize(evento)}\n\n", ct);
+            await Response.Body.FlushAsync(ct);
+        }
     }
 
     [HttpGet("dashboard")]

@@ -1,3 +1,5 @@
+using System.Threading.Channels;
+
 using fastinventoryInventory.Src.Application.DTOs.Common;
 using fastinventoryInventory.Src.Application.DTOs.Inventory;
 using fastinventoryInventory.Src.Application.Interfaces;
@@ -15,6 +17,7 @@ public class InventoryService : IInventoryService
     private readonly IWarehouseRepository _warehouseRepository;
     private readonly IUnitRepository _unitRepository;
     private readonly IUnitOfWork _unitOfWork;
+    private readonly Channel<RestockEvent> _restockChannel;
 
     public InventoryService(
         IInventoryDocumentRepository documentRepository,
@@ -23,7 +26,8 @@ public class InventoryService : IInventoryService
         IProductRepository productRepository,
         IWarehouseRepository warehouseRepository,
         IUnitRepository unitRepository,
-        IUnitOfWork unitOfWork)
+        IUnitOfWork unitOfWork,
+        Channel<RestockEvent> restockChannel)
     {
         _documentRepository = documentRepository;
         _stockRepository = stockRepository;
@@ -32,6 +36,7 @@ public class InventoryService : IInventoryService
         _warehouseRepository = warehouseRepository;
         _unitRepository = unitRepository;
         _unitOfWork = unitOfWork;
+        _restockChannel = restockChannel;
     }
 
     public async Task<InventoryDocumentResponseDto> ProcessDocumentAsync(CreateInventoryDocumentDto dto)
@@ -84,6 +89,20 @@ public class InventoryService : IInventoryService
                     line.UnitCost);
 
                 await _kardexRepository.AddAsync(movement);
+
+                if (isInput)
+                {
+                    var product = await _productRepository.GetByCenAsync(line.ProductCen);
+                    var warehouse = await _warehouseRepository.GetByCenAsync(dto.WarehouseCen);
+                    await _restockChannel.Writer.WriteAsync(new RestockEvent
+                    {
+                        ProductCen = line.ProductCen,
+                        ProductName = product?.Name ?? "Unknown",
+                        Quantity = line.Quantity,
+                        WarehouseCen = dto.WarehouseCen,
+                        WarehouseName = warehouse?.Name ?? "Unknown"
+                    });
+                }
             }
 
             document.Complete();
@@ -142,6 +161,20 @@ public class InventoryService : IInventoryService
                     null);
 
                 await _kardexRepository.AddAsync(movement);
+
+                if (isInput)
+                {
+                    var product = await _productRepository.GetByCenAsync(line.ProductCen);
+                    var warehouse = await _warehouseRepository.GetByCenAsync(dto.WarehouseCen);
+                    await _restockChannel.Writer.WriteAsync(new RestockEvent
+                    {
+                        ProductCen = line.ProductCen,
+                        ProductName = product?.Name ?? "Unknown",
+                        Quantity = line.Quantity,
+                        WarehouseCen = dto.WarehouseCen,
+                        WarehouseName = warehouse?.Name ?? "Unknown"
+                    });
+                }
 
                 generatedMovements.Add(new GeneratedMovementContractDto
                 {

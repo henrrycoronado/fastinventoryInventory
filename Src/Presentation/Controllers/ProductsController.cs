@@ -51,16 +51,16 @@ public class ProductsController : ControllerBase
     }
 
     [HttpPut("{productCen}")]
-    public async Task<IActionResult> Update(string productCen, UpdateProductDto dto)
+    public async Task<ActionResult<ProductResponseDto>> Update(string productCen, UpdateProductDto dto)
     {
-        await _productService.UpdateAsync(productCen, dto);
-        return NoContent();
+        var product = await _productService.UpdateAsync(productCen, dto);
+        return Ok(product);
     }
 
     [HttpPatch("{productCen}/status")]
-    public async Task<IActionResult> UpdateStatus(string productCen, UpdateProductStatusDto dto)
+    public async Task<ActionResult<ProductResponseDto>> UpdateStatus(string productCen, UpdateProductStatusDto dto)
     {
-        await _productService.UpdateStatusAsync(productCen, dto);
-        return NoContent();
+        var product = await _productService.UpdateStatusAsync(productCen, dto);
+        return Ok(product);
     }
 }

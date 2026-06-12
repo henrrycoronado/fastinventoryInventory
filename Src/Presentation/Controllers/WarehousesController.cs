@@ -32,9 +32,9 @@ public class WarehousesController : ControllerBase
     }
 
     [HttpPut("{warehouseCen}")]
-    public async Task<IActionResult> Update(string warehouseCen, UpdateWarehouseDto dto)
+    public async Task<ActionResult<WarehouseResponseDto>> Update(string warehouseCen, UpdateWarehouseDto dto)
     {
-        await _warehouseService.UpdateAsync(warehouseCen, dto);
-        return NoContent();
+        var warehouse = await _warehouseService.UpdateAsync(warehouseCen, dto);
+        return Ok(warehouse);
     }
 }

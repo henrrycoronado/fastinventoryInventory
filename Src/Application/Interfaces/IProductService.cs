@@ -10,6 +10,6 @@ public interface IProductService
     Task<IEnumerable<ProductResponseDto>> GetByCompanyAsync(string companyCen, ProductQueryFilters? filters = null);
     Task<IEnumerable<ProductResponseDto>> GetByCensAsync(IEnumerable<string> productCens);
     Task<CreateProductResponseDto> CreateAsync(CreateProductDto dto);
-    Task UpdateAsync(string productCen, UpdateProductDto dto);
-    Task UpdateStatusAsync(string productCen, UpdateProductStatusDto dto);
+    Task<ProductResponseDto> UpdateAsync(string productCen, UpdateProductDto dto);
+    Task<ProductResponseDto> UpdateStatusAsync(string productCen, UpdateProductStatusDto dto);
 }

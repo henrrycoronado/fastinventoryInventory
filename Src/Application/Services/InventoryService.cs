@@ -34,7 +34,7 @@ public class InventoryService : IInventoryService
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<string> ProcessDocumentAsync(CreateInventoryDocumentDto dto)
+    public async Task<InventoryDocumentResponseDto> ProcessDocumentAsync(CreateInventoryDocumentDto dto)
     {
         await _unitOfWork.BeginTransactionAsync();
 
@@ -89,7 +89,7 @@ public class InventoryService : IInventoryService
             document.Complete();
             await _documentRepository.AddAsync(document);
             await _unitOfWork.CommitTransactionAsync();
-            return document.DocumentCen;
+            return await GetDocumentByCenAsync(document.DocumentCen) ?? throw new InvalidOperationException("Failed to retrieve processed document");
         }
         catch
         {
@@ -197,7 +197,8 @@ public class InventoryService : IInventoryService
             }).ToList()
         };
 
-        var documentCen = await ProcessDocumentAsync(docDto);
+        var document = await ProcessDocumentAsync(docDto);
+        var documentCen = document.DocumentCen;
         var movements = await _kardexRepository.GetByDocumentCenAsync(documentCen);
 
         return new StockConsumeResponseDto
@@ -225,7 +226,8 @@ public class InventoryService : IInventoryService
             }).ToList()
         };
 
-        return await ProcessDocumentAsync(docDto);
+        var document = await ProcessDocumentAsync(docDto);
+        return document.DocumentCen;
     }
 
     public async Task<StockResponseDto?> GetStockAsync(string productCen, string warehouseCen)

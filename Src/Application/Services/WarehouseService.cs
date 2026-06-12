@@ -36,7 +36,7 @@ public class WarehouseService : IWarehouseService
         return MapToDto(entity);
     }
 
-    public async Task UpdateAsync(string warehouseCen, UpdateWarehouseDto dto)
+    public async Task<WarehouseResponseDto> UpdateAsync(string warehouseCen, UpdateWarehouseDto dto)
     {
         var entity = await _repository.GetByCenAsync(warehouseCen);
         if (entity == null)
@@ -57,6 +57,8 @@ public class WarehouseService : IWarehouseService
 
         await _repository.UpdateAsync(entity);
         await _unitOfWork.SaveChangesAsync();
+
+        return MapToDto(entity);
     }
 
     private static WarehouseResponseDto MapToDto(Warehouse entity) => new()

@@ -32,9 +32,9 @@ public class CategoriesController : ControllerBase
     }
 
     [HttpPut("{categoryCen}")]
-    public async Task<IActionResult> Update(string categoryCen, UpdateCategoryDto dto)
+    public async Task<ActionResult<CategoryResponseDto>> Update(string categoryCen, UpdateCategoryDto dto)
     {
-        await _categoryService.UpdateAsync(categoryCen, dto);
-        return NoContent();
+        var category = await _categoryService.UpdateAsync(categoryCen, dto);
+        return Ok(category);
     }
 }

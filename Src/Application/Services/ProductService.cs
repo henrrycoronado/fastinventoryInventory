@@ -96,7 +96,7 @@ public class ProductService : IProductService
         };
     }
 
-    public async Task UpdateAsync(string productCen, UpdateProductDto dto)
+    public async Task<ProductResponseDto> UpdateAsync(string productCen, UpdateProductDto dto)
     {
         var entity = await _repository.GetByCenAsync(productCen);
         if (entity == null)
@@ -135,9 +135,11 @@ public class ProductService : IProductService
 
         await _repository.UpdateAsync(entity);
         await _unitOfWork.SaveChangesAsync();
+
+        return await MapToDto(entity);
     }
 
-    public async Task UpdateStatusAsync(string productCen, UpdateProductStatusDto dto)
+    public async Task<ProductResponseDto> UpdateStatusAsync(string productCen, UpdateProductStatusDto dto)
     {
         var entity = await _repository.GetByCenAsync(productCen);
         if (entity == null)
@@ -149,6 +151,8 @@ public class ProductService : IProductService
 
         await _repository.UpdateAsync(entity);
         await _unitOfWork.SaveChangesAsync();
+
+        return await MapToDto(entity);
     }
 
     private async Task<ProductResponseDto> MapToDto(Product entity)

@@ -32,9 +32,9 @@ public class UnitsController : ControllerBase
     }
 
     [HttpPut("{unitCen}")]
-    public async Task<IActionResult> Update(string unitCen, UpdateUnitDto dto)
+    public async Task<ActionResult<UnitResponseDto>> Update(string unitCen, UpdateUnitDto dto)
     {
-        await _unitService.UpdateAsync(unitCen, dto);
-        return NoContent();
+        var unit = await _unitService.UpdateAsync(unitCen, dto);
+        return Ok(unit);
     }
 }

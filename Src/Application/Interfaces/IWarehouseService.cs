@@ -7,5 +7,5 @@ public interface IWarehouseService
     Task<WarehouseResponseDto?> GetByCenAsync(string warehouseCen);
     Task<IEnumerable<WarehouseResponseDto>> GetByCompanyAsync(string companyCen);
     Task<WarehouseResponseDto> CreateAsync(CreateWarehouseDto dto);
-    Task UpdateAsync(string warehouseCen, UpdateWarehouseDto dto);
+    Task<WarehouseResponseDto> UpdateAsync(string warehouseCen, UpdateWarehouseDto dto);
 }

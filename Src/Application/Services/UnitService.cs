@@ -36,7 +36,7 @@ public class UnitService : IUnitService
         return MapToDto(entity);
     }
 
-    public async Task UpdateAsync(string unitCen, UpdateUnitDto dto)
+    public async Task<UnitResponseDto> UpdateAsync(string unitCen, UpdateUnitDto dto)
     {
         var entity = await _repository.GetByCenAsync(unitCen);
         if (entity == null)
@@ -51,6 +51,8 @@ public class UnitService : IUnitService
 
         await _repository.UpdateAsync(entity);
         await _unitOfWork.SaveChangesAsync();
+
+        return MapToDto(entity);
     }
 
     private static UnitResponseDto MapToDto(Unit entity) => new()

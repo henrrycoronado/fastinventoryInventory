@@ -7,5 +7,5 @@ public interface IUnitService
     Task<UnitResponseDto?> GetByCenAsync(string unitCen);
     Task<IEnumerable<UnitResponseDto>> GetByCompanyAsync(string companyCen);
     Task<UnitResponseDto> CreateAsync(CreateUnitDto dto);
-    Task UpdateAsync(string unitCen, UpdateUnitDto dto);
+    Task<UnitResponseDto> UpdateAsync(string unitCen, UpdateUnitDto dto);
 }

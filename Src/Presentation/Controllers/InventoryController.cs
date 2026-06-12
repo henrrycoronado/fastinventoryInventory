@@ -69,11 +69,11 @@ public class InventoryController : ControllerBase
     }
 
     [HttpPost("documents")]
-    public async Task<ActionResult<string>> CreateDocument(string companyCen, CreateInventoryDocumentDto dto)
+    public async Task<ActionResult<InventoryDocumentResponseDto>> CreateDocument(string companyCen, CreateInventoryDocumentDto dto)
     {
         dto.CompanyCen = companyCen;
-        var documentCen = await _inventoryService.ProcessDocumentAsync(dto);
-        return CreatedAtAction(nameof(GetDocument), new { companyCen, documentCen }, documentCen);
+        var document = await _inventoryService.ProcessDocumentAsync(dto);
+        return CreatedAtAction(nameof(GetDocument), new { companyCen, documentCen = document.DocumentCen }, document);
     }
 
     [HttpGet("documents")]
@@ -136,6 +136,6 @@ public class InventoryController : ControllerBase
     public async Task<ActionResult<InventoryAdjustmentContractResponse>> AdjustStock(string companyCen, InventoryAdjustmentRequestDto dto)
     {
         var result = await _inventoryService.AdjustStockAsync(companyCen, dto);
-        return Ok(result);
+        return CreatedAtAction(nameof(GetDashboard), new { companyCen }, result);
     }
 }

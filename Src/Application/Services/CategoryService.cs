@@ -36,7 +36,7 @@ public class CategoryService : ICategoryService
         return MapToDto(entity);
     }
 
-    public async Task UpdateAsync(string categoryCen, UpdateCategoryDto dto)
+    public async Task<CategoryResponseDto> UpdateAsync(string categoryCen, UpdateCategoryDto dto)
     {
         var entity = await _repository.GetByCenAsync(categoryCen);
         if (entity == null)
@@ -51,6 +51,8 @@ public class CategoryService : ICategoryService
 
         await _repository.UpdateAsync(entity);
         await _unitOfWork.SaveChangesAsync();
+
+        return MapToDto(entity);
     }
 
     private static CategoryResponseDto MapToDto(Category entity) => new()

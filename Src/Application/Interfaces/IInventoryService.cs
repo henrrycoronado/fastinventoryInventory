@@ -5,7 +5,7 @@ namespace fastinventoryInventory.Src.Application.Interfaces;
 
 public interface IInventoryService
 {
-    Task<string> ProcessDocumentAsync(CreateInventoryDocumentDto dto);
+    Task<InventoryDocumentResponseDto> ProcessDocumentAsync(CreateInventoryDocumentDto dto);
     Task<InventoryAdjustmentContractResponse> AdjustStockAsync(string companyCen, InventoryAdjustmentRequestDto dto);
     Task<StockConsumeResponseDto> ConsumeStockAsync(string companyCen, StockValidationRequestDto dto);
     Task<string> IncreaseStockAsync(string companyCen, StockValidationRequestDto dto);

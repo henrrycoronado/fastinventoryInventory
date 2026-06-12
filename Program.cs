@@ -42,6 +42,7 @@ builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IUnitService, UnitService>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IInventoryService, InventoryService>();
+builder.Services.AddSingleton(Channel.CreateUnbounded<RestockEvent>());
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();

@@ -23,7 +23,6 @@ public class ApplicationDbContext : DbContext
         base.OnModelCreating(modelBuilder);
         modelBuilder.HasDefaultSchema("inventory");
 
-        // --- Mapeo: Companies ---
         modelBuilder.Entity<CompanyModel>(e =>
         {
             e.ToTable("companies");
@@ -37,7 +36,6 @@ public class ApplicationDbContext : DbContext
             e.Property(x => x.CreatedAt).HasColumnName("created_at");
         });
 
-        // --- Mapeo: Warehouses ---
         modelBuilder.Entity<WarehouseModel>(e =>
         {
             e.ToTable("warehouses");
@@ -56,7 +54,6 @@ public class ApplicationDbContext : DbContext
                 .HasPrincipalKey(c => c.CompanyCen);
         });
 
-        // --- Mapeo: Categories ---
         modelBuilder.Entity<CategoryModel>(e =>
         {
             e.ToTable("categories");
@@ -76,7 +73,6 @@ public class ApplicationDbContext : DbContext
                 .HasPrincipalKey(comp => comp.CompanyCen);
         });
 
-        // --- Mapeo: Units ---
         modelBuilder.Entity<UnitModel>(e =>
         {
             e.ToTable("units");
@@ -96,7 +92,6 @@ public class ApplicationDbContext : DbContext
                 .HasPrincipalKey(c => c.CompanyCen);
         });
 
-        // --- Mapeo: Products ---
         modelBuilder.Entity<ProductModel>(e =>
         {
             e.ToTable("products");
@@ -122,7 +117,6 @@ public class ApplicationDbContext : DbContext
             e.HasOne(p => p.Unit).WithMany(u => u.Products).HasForeignKey(p => p.UnitCen).HasPrincipalKey(u => u.UnitCen);
         });
 
-        // --- Mapeo: Stock ---
         modelBuilder.Entity<StockModel>(e =>
         {
             e.ToTable("stock");
@@ -140,7 +134,6 @@ public class ApplicationDbContext : DbContext
             e.HasOne(s => s.Warehouse).WithMany(w => w.Stocks).HasForeignKey(s => s.WarehouseCen).HasPrincipalKey(w => w.WarehouseCen);
         });
 
-        // --- Mapeo: Inventory Documents ---
         modelBuilder.Entity<InventoryDocumentModel>(e =>
         {
             e.ToTable("inventory_documents");
@@ -162,7 +155,6 @@ public class ApplicationDbContext : DbContext
             e.HasOne(d => d.Warehouse).WithMany().HasForeignKey(d => d.WarehouseCen).HasPrincipalKey(w => w.WarehouseCen);
         });
 
-        // --- Mapeo: Inventory Document Lines ---
         modelBuilder.Entity<InventoryDocumentLineModel>(e =>
         {
             e.ToTable("inventory_document_lines");
@@ -180,7 +172,6 @@ public class ApplicationDbContext : DbContext
             e.HasOne(l => l.Product).WithMany().HasForeignKey(l => l.ProductCen).HasPrincipalKey(p => p.ProductCen);
         });
 
-        // --- Mapeo: Kardex Movements ---
         modelBuilder.Entity<KardexMovementModel>(e =>
         {
             e.ToTable("kardex_movements");

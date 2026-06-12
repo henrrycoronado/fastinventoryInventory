@@ -31,9 +31,6 @@ public class InventoryController : ControllerBase
 
         await foreach (var evento in _restockChannel.Reader.ReadAllAsync(ct))
         {
-            // Only stream events for the requested company
-            // (In a real scenario, events would be tagged with companyCen)
-            // For now, we assume all events in this channel are relevant or we could add a check if DTO had companyCen
 
             await Response.WriteAsync($"data: {JsonSerializer.Serialize(evento)}\n\n", ct);
             await Response.Body.FlushAsync(ct);

@@ -1,124 +1,18 @@
 -- =========================================================================
 -- 1. CREACIÓN DE ESQUEMAS
 -- =========================================================================
-CREATE SCHEMA IF NOT EXISTS manager;
 CREATE SCHEMA IF NOT EXISTS inventory;
 CREATE SCHEMA IF NOT EXISTS purchasing;
 CREATE SCHEMA IF NOT EXISTS sales;
 
 -- =========================================================================
--- MÓDULO: IDENTITY (Gestión de Accesos y Suscripciones)
--- =========================================================================
-
-CREATE TABLE manager.user_profiles (
-    id BIGSERIAL PRIMARY KEY,
-    profile_cen VARCHAR(50) UNIQUE NOT NULL,
-    user_cen VARCHAR(50) UNIQUE NOT NULL, -- Relación lógica con AspNetUsers
-    first_name VARCHAR(100) NOT NULL,
-    last_name VARCHAR(100) NOT NULL,
-    is_active BOOLEAN DEFAULT TRUE NOT NULL,
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL
-);
-
-CREATE TABLE manager.access_company(
-    id BIGSERIAL PRIMARY KEY,
-    access_company_cen VARCHAR(50) UNIQUE NOT NULL,
-    profile_cen VARCHAR(50) REFERENCES manager.user_profiles(profile_cen) NOT NULL,
-    company_cen VARCHAR(50) NOT NULL,
-    is_active BOOLEAN DEFAULT TRUE NOT NULL,
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL
-);
-
-CREATE TABLE manager.systems ( -- aqui definimos los sistemas que pueden ser suscritos (Restaurante, Indumentaria, etc)
-    id BIGSERIAL PRIMARY KEY,
-    system_cen VARCHAR(50) UNIQUE NOT NULL,
-    name VARCHAR(50) NOT NULL,
-    description TEXT,
-    is_active BOOLEAN DEFAULT TRUE NOT NULL,
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL
-);
-
-CREATE TABLE manager.features (
-    id BIGSERIAL PRIMARY KEY,
-    feature_cen VARCHAR(50) UNIQUE NOT NULL,
-    name VARCHAR(50) NOT NULL,
-    description TEXT,
-    is_active BOOLEAN DEFAULT TRUE NOT NULL,
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL
-);
-
-CREATE TABLE manager.system_features (
-    id BIGSERIAL PRIMARY KEY,
-    system_feature_cen VARCHAR(50) UNIQUE NOT NULL,
-    system_cen VARCHAR(50) REFERENCES manager.systems(system_cen) NOT NULL,
-    feature_cen VARCHAR(50) REFERENCES manager.features(feature_cen) NOT NULL,
-    is_active BOOLEAN DEFAULT TRUE NOT NULL,
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL
-);
-
-CREATE TABLE manager.system_features_limits(
-    id BIGSERIAL PRIMARY KEY,
-    system_feature_cen VARCHAR(50) REFERENCES manager.system_features(system_feature_cen) NOT NULL,
-    limit_name VARCHAR(50) NOT NULL,
-    limit_value INT NOT NULL DEFAULT 0,
-    lvl_access INT NOT NULL DEFAULT 1, -- 1: estandar_suscripción, 2: premium, 3: enterprise
-    is_active BOOLEAN DEFAULT TRUE NOT NULL,
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL
-    UNIQUE (system_feature_cen, limit_name)
-);
-
-CREATE TABLE manager.access_system (
-    id BIGSERIAL PRIMARY KEY,
-    access_system_cen VARCHAR(50) UNIQUE NOT NULL,
-    profile_cen VARCHAR(50) REFERENCES manager.user_profiles(profile_cen) NOT NULL,
-    system_cen VARCHAR(50) REFERENCES manager.systems(system_cen) NOT NULL,
-    is_active BOOLEAN DEFAULT TRUE NOT NULL,
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL
-);
-
-CREATE TABLE manager.subscription(
-    id BIGSERIAL PRIMARY KEY,
-    subscription_cen VARCHAR(50) UNIQUE NOT NULL,
-    access_system_cen VARCHAR(50) REFERENCES manager.access_system(access_system_cen) NOT NULL,
-    lvl_access INT NOT NULL DEFAULT 1, -- 1: estandar_suscripción, 2: premium, 3: enterprise
-    subscription_state VARCHAR(50) NOT NULL, -- SUBSCRIPTION_RENEWED, SUBSCRIPTION_CANCELLED, SUBSCRIPTION_CREATED, SUBSCRIPTION_EXPIRED, etc.
-    description TEXT,
-    start_upgrade TIMESTAMP WITH TIME ZONE NOT NULL,
-    end_upgrade TIMESTAMP WITH TIME ZONE NOT NULL,
-    is_active BOOLEAN DEFAULT TRUE NOT NULL,
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL
-);
-
-CREATE TABLE manager.usage_counters (
-    id BIGSERIAL PRIMARY KEY,
-    access_system_cen VARCHAR(50) REFERENCES manager.access_system(access_system_cen) NOT NULL,
-    resource_type VARCHAR(50) NOT NULL, -- PRODUCT, WAREHOUSE, ORDER
-    current_count INT DEFAULT 0 NOT NULL,
-    last_reset_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    is_active BOOLEAN DEFAULT TRUE NOT NULL,
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL
-    UNIQUE (access_system_cen, resource_type)
-);
-
-CREATE TABLE manager.refresh_tokens (
-    id BIGSERIAL PRIMARY KEY,
-    token TEXT UNIQUE NOT NULL,
-    user_cen VARCHAR(50) NOT NULL,
-    expires_at TIMESTAMP WITH TIME ZONE NOT NULL,
-    is_revoked BOOLEAN DEFAULT FALSE NOT NULL,
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL
-);
-
--- =========================================================================
--- MÓDULO: INVENTARIO (Compañero)
+-- MÓDULO: INVENTARIO
 -- =========================================================================
 
 CREATE TABLE inventory.companies (
     id BIGSERIAL PRIMARY KEY,
     company_cen VARCHAR(50) UNIQUE NOT NULL,
     name VARCHAR(150) NOT NULL,
-    origin_system_cen VARCHAR(50) REFERENCES manager.systems(system_cen) NOT NULL,
-    owner_profile_cen VARCHAR(50) REFERENCES manager.user_profiles(profile_cen) NOT NULL,
     is_active BOOLEAN DEFAULT TRUE NOT NULL,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
@@ -182,7 +76,7 @@ CREATE TABLE inventory.inventory_documents (
     company_cen VARCHAR(50) REFERENCES inventory.companies(company_cen) ON DELETE CASCADE NOT NULL,
     warehouse_cen VARCHAR(50) REFERENCES inventory.warehouses(warehouse_cen) ON DELETE RESTRICT NOT NULL,
     document_type VARCHAR(30) NOT NULL,
-    status VARCHAR(20) NOT NULL DEFAULT 'COMPLETED', 
+    status VARCHAR(20) NOT NULL DEFAULT 'PENDING', 
     title VARCHAR(150) NOT NULL,
     reason TEXT,
     external_reference VARCHAR(100),
@@ -213,8 +107,7 @@ CREATE TABLE inventory.kardex_movements (
 );
 
 -- =========================================================================
--- MÓDULO: COMPRAS (Tu Esquema)
--- Referencias DESACOPLADAS hacia el inventario externo
+-- MÓDULO: COMPRAS
 -- =========================================================================
 
 CREATE TABLE purchasing.suppliers (
@@ -229,9 +122,9 @@ CREATE TABLE purchasing.purchase_orders (
     order_cen VARCHAR(50) UNIQUE NOT NULL,
     company_cen VARCHAR(50) NOT NULL,   -- Referencia suave
     warehouse_cen VARCHAR(50) NOT NULL, -- Referencia suave
-    supplier_cen VARCHAR(50) REFERENCES purchasing.suppliers(supplier_cen) ON DELETE RESTRICT NOT NULL, -- Relación interna fuerte
+    supplier_cen VARCHAR(50) REFERENCES purchasing.suppliers(supplier_cen) ON DELETE RESTRICT NOT NULL,
     status SMALLINT NOT NULL DEFAULT 0, 
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL,
     confirmed_at TIMESTAMP WITH TIME ZONE
 );
 
@@ -244,18 +137,16 @@ CREATE TABLE purchasing.purchase_order_items (
 );
 
 -- =========================================================================
--- MÓDULO: VENTAS (Tu Esquema)
--- Referencias DESACOPLADAS hacia el inventario externo
+-- MÓDULO: VENTAS
 -- =========================================================================
 
 CREATE TABLE sales.tax_configurations (
-    id BIGSERIAL PRIMARY KEY,
-    company_cen VARCHAR(50) UNIQUE NOT NULL, -- Referencia suave (Unique 1 a 1)
+    company_cen VARCHAR(50) PRIMARY KEY, -- Referencia suave
     global_tax_percentage NUMERIC(5, 2) NOT NULL DEFAULT 0.00
 );
 
 CREATE TABLE sales.payment_methods (
-    payment_method_code VARCHAR(20) PRIMARY KEY, -- Esta es de dominio/catálogo puro
+    payment_method_code VARCHAR(20) PRIMARY KEY,
     name VARCHAR(50) NOT NULL,
     is_active BOOLEAN DEFAULT TRUE NOT NULL
 );
